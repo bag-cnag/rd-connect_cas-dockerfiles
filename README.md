@@ -20,7 +20,7 @@ Instructions
 3. Create the images
   
   	```bash
-  	./genereateImages.sh
+  	./generateImages.sh
   	```
 4. Enter rd-connect-compose directory
   	
