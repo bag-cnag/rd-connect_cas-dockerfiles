@@ -27,12 +27,11 @@ RUN	curl -o /tmp/openldap-centos.patch 'https://bugs.centos.org/file_download.ph
 # We fetch this, as it contains the LDAP setup script and schemas
 ADD	"${CAS_LDAP_CERTS_FILE}" "${LOCAL_CAS_LDAP_CERTS_DIR}"
 RUN	git clone https://github.com/inab/ldap-rest-cas4-overlay.git "${CASCLONE}" 
-RUN	cd "${CASCLONE}" && \
+RUN	git clone https://github.com/inab/ldap-rest-cas4-overlay.git "${CASCLONE}" && \
+	cd "${CASCLONE}" && \
 	git checkout "${CAS_RELEASE}" && \
-	/bin/bash -x "${CASCLONE}/ldap-schemas/setup-ldap.sh" "${LOCAL_CAS_LDAP_CERTS_DIR}" "${LDAP_CERTS_PROFILE}" '/etc/init.d/slapd start' '/etc/init.d/slapd stop' 
-# comment because it giving error due to some subtle issue on docker and underlying disk
-# rm -rf "${CASCLONE}" "${LOCAL_CAS_LDAP_CERTS_DIR}"
-
+	/bin/bash -x "${CASCLONE}/ldap-schemas/setup-ldap.sh" "${LOCAL_CAS_LDAP_CERTS_DIR}" "${LDAP_CERTS_PROFILE}" '/etc/init.d/slapd start' '/etc/init.d/slapd stop' && \
+	rm -rf "${CASCLONE}" "${LOCAL_CAS_LDAP_CERTS_DIR}"
 # Last, cleanup!!
 RUN	yum autoremove -y git patch
 RUN	yum clean all
