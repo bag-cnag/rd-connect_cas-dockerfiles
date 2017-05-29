@@ -30,7 +30,8 @@ RUN	git clone https://github.com/inab/ldap-rest-cas4-overlay.git "${CASCLONE}" &
 	cd "${CASCLONE}" && \
 	git checkout "${CAS_RELEASE}" && \
 	/bin/bash -x "${CASCLONE}/ldap-schemas/setup-ldap.sh" "${LOCAL_CAS_LDAP_CERTS_DIR}" "${LDAP_CERTS_PROFILE}" "/etc/init.d/slapd start" '/etc/init.d/slapd stop' && \
-	rm -rf "${CASCLONE}" "${LOCAL_CAS_LDAP_CERTS_DIR}"
+# comment because it giving error due to some subtle issue on docker and underlying disk
+# rm -rf "${CASCLONE}" "${LOCAL_CAS_LDAP_CERTS_DIR}"
 
 # Last, cleanup!!
 RUN	yum autoremove -y git patch
